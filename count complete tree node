@@ -1,0 +1,39 @@
+class Solution {
+public:
+ int countNodes(TreeNode* root) {
+ int res = 0;
+ int depth = 0;
+ int tmp = 0;
+ int cnt = 0;
+ bool flag = true;
+ bool virgin = true;
+ countNodesDFS(root, depth, tmp, cnt, flag, virgin);
+ int plus = 1;
+ for(int i = 0; i < depth; i++){
+ res += plus;
+ plus *= 2;
+ }
+ res = res - (plus / 2) + (cnt / 2);
+ return res;
+ }
+ void countNodesDFS(TreeNode* cur, int& depth, int &tmp, int &cnt, bool &flag, bool &virgin){
+ if(flag == false)
+ return;
+ if(cur == NULL){
+ if(virgin == true){
+ depth = tmp;
+ virgin = false;
+ }
+ if(tmp == depth)
+ cnt++;
+ else
+ flag = false;
+ return;
+ }
+ tmp += 1;
+ countNodesDFS(cur->left, depth, tmp, cnt, flag, virgin);
+ countNodesDFS(cur->right, depth, tmp, cnt, flag, virgin);
+ tmp -= 1;
+ }
+ 
+};
